@@ -1,0 +1,43 @@
+       
+        
+      table, .result {
+        border-collapse: collapse;
+        margin: auto;
+        width:40%;
+        background-color: #f5f5f5;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+      .result{
+        text-align: right;
+        margin-top:80px;
+        height: 60px;
+        border-radius: 0px;
+       
+    }
+
+    
+      td {
+        padding: 10px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        border: 1px solid #ccc;
+      }
+      td.operator {
+        background-color: #f0ad4e;
+        color: #fff;
+      }
+      td.clear {
+        background-color: #d9534f;
+        color: #fff;
+      }
+      td.equals {
+        background-color: #5cb85c;
+        color: #fff;
+        border-right: none;
+      }
+      td:active {
+        background-color: #ccc;
+      }
+   
