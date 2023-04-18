@@ -2,33 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./table.css";
 
 export default function Table() {
-  const [firstNumber, setFirstNumber] = useState("");
-  const [secondNumber, setSecondNumber] = useState("");
-  const [operator, setOperator] = useState("");
+  const [firstNumber, setFirstNumber] = useState<string>("");
+  const [secondNumber, setSecondNumber] = useState<string>("");
+  const [operator, setOperator] = useState<string>("");
   const [result, setResult] = useState<string | number>("");
-  const addition = (firstNumber: number, secondNumber: number) =>
-    firstNumber + secondNumber;
-
-  const subtract = (firstNumber: number, secondNumber: number) =>
-    firstNumber - secondNumber;
-
-  const divide = (firstNumber: number, secondNumber: number) => {
-    if (secondNumber === 0) {
-      throw new Error("cannot divide by 0");
-    }
-    return firstNumber / secondNumber;
-  };
-  const multiply = (firstNumber: number, secondNumber: number) => {
-    return firstNumber * secondNumber;
-  };
-
-  useEffect(() => {
-    console.log(firstNumber);
-  }, [firstNumber]);
-
-  useEffect(() => {
-    console.log(secondNumber);
-  }, [secondNumber]);
 
   useEffect(() => {
     setResult(firstNumber);
@@ -37,10 +14,6 @@ export default function Table() {
   useEffect(() => {
     setResult(firstNumber + operator + secondNumber);
   }, [secondNumber]);
-
-  useEffect(() => {
-    console.log(operator);
-  }, [operator]);
 
   function handleClick(event: React.MouseEvent<HTMLTableCellElement>) {
     if (operator === "") {
@@ -54,14 +27,22 @@ export default function Table() {
     }
   }
   function useOperator(event: React.MouseEvent<HTMLTableCellElement>) {
+    const value = (event.target as HTMLTableCellElement).innerText;
+
     if (firstNumber !== "") {
-      const value = (event.target as HTMLTableCellElement).innerText;
       setOperator(value);
       setResult((prevResult) => prevResult + value);
+    }
+    if (firstNumber !== "" && secondNumber !== "") {
+      handleEqual();
+      setOperator(value);
     }
   }
 
   function handleEqual() {
+    if (firstNumber && !secondNumber) {
+      return setResult(firstNumber);
+    }
     let result = 0;
     if (operator === "+") {
       result = addition(parseFloat(firstNumber), parseFloat(secondNumber));
@@ -75,7 +56,11 @@ export default function Table() {
     if (operator === "÷") {
       result = divide(parseFloat(firstNumber), parseFloat(secondNumber));
     }
+
     setResult(result);
+    setFirstNumber(result.toString());
+    setSecondNumber("");
+    setOperator("");
   }
 
   function handleReset() {
@@ -87,8 +72,9 @@ export default function Table() {
 
   return (
     <>
-      <h1 className="result">{result}</h1>
-
+      <div className="result">
+        <h1>{result}</h1>
+      </div>
       <table>
         <tr>
           <td className="clear" onClick={handleReset}>
@@ -157,3 +143,17 @@ export default function Table() {
     </>
   );
 }
+
+//operations
+const addition = (firstNumber: number, secondNumber: number) =>
+  firstNumber + secondNumber;
+
+const subtract = (firstNumber: number, secondNumber: number) =>
+  firstNumber - secondNumber;
+
+const divide = (firstNumber: number, secondNumber: number) => {
+  return firstNumber / secondNumber;
+};
+const multiply = (firstNumber: number, secondNumber: number) => {
+  return firstNumber * secondNumber;
+};
