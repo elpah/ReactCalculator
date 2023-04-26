@@ -1,6 +1,10 @@
 React Calculator
 This is a simple calculator app created with React.
-The app performs basic arithmetic operations ie addition, subtraction, multiplication, and division.
+The app performs basic arithmetic operations ie 
+addition
+subtraction
+multiplication
+division.
 
 Getting Started
 To get started, you can clone this repository
