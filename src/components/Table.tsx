@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./table.css";
+import { addition, subtract, divide, multiply } from "./mathFuntions";
 
 export default function Table() {
   const [firstNumber, setFirstNumber] = useState<string>("");
@@ -8,24 +9,23 @@ export default function Table() {
   const [result, setResult] = useState<string | number>("");
 
   useEffect(() => {
-    setResult(firstNumber);
-  }, [firstNumber]);
-
-  useEffect(() => {
-    setResult(firstNumber + operator + secondNumber);
-  }, [secondNumber]);
+    let result = firstNumber;
+    if (operator) {
+      result += operator + secondNumber;
+    }
+    setResult(result);
+  }, [firstNumber, secondNumber, operator]);
 
   function handleClick(event: React.MouseEvent<HTMLTableCellElement>) {
-    if (operator === "") {
-      let value = (event.target as HTMLTableCellElement).innerText;
-      setFirstNumber((prevResult) => prevResult + value);
-    }
     if (operator !== "") {
       let value = "";
       value = (event.target as HTMLTableCellElement).innerText;
-      setSecondNumber((prevResult) => prevResult + value);
+      return setSecondNumber((prevResult) => prevResult + value);
     }
+    let value = (event.target as HTMLTableCellElement).innerText;
+    setFirstNumber((prevResult) => prevResult + value);
   }
+
   function useOperator(event: React.MouseEvent<HTMLTableCellElement>) {
     const value = (event.target as HTMLTableCellElement).innerText;
 
@@ -38,7 +38,30 @@ export default function Table() {
       setOperator(value);
     }
   }
-
+  function handleNegPos() {
+    if (firstNumber && !secondNumber && parseFloat(firstNumber) > 0) {
+      setFirstNumber((prevState) => "-" + prevState);
+    }
+    if (firstNumber && !secondNumber && parseFloat(firstNumber) < 0) {
+      setFirstNumber((prevState) => prevState.replace(/^-/, ""));
+    }
+    if (secondNumber && parseFloat(secondNumber) > 0) {
+      setSecondNumber((prevState) => "-" + prevState);
+    }
+    if (secondNumber && parseFloat(secondNumber) < 0) {
+      setSecondNumber((prevState) => prevState.replace(/^-/, ""));
+    }
+  }
+  function handlePercentage() {
+    if (firstNumber && !secondNumber && !operator) {
+      const res = parseFloat(firstNumber) / 100;
+      setFirstNumber(res.toString());
+    }
+    if (secondNumber) {
+      const res = parseFloat(secondNumber) / 100;
+      setSecondNumber(res.toString());
+    }
+  }
   function handleEqual() {
     if (firstNumber && !secondNumber) {
       return setResult(firstNumber);
@@ -56,13 +79,11 @@ export default function Table() {
     if (operator === "÷") {
       result = divide(parseFloat(firstNumber), parseFloat(secondNumber));
     }
-
     setResult(result);
     setFirstNumber(result.toString());
     setSecondNumber("");
     setOperator("");
   }
-
   function handleReset() {
     setFirstNumber("");
     setSecondNumber("");
@@ -80,8 +101,10 @@ export default function Table() {
           <td className="clear" onClick={handleReset}>
             AC
           </td>
-          <td className="posNeg">+/-</td>
-          <td className="percentage" onClick={useOperator}>
+          <td className="posNeg" onClick={handleNegPos}>
+            +/-
+          </td>
+          <td className="percentage" onClick={handlePercentage}>
             %
           </td>
           <td className="operator divide" onClick={useOperator}>
@@ -134,7 +157,9 @@ export default function Table() {
           <td colSpan={2} onClick={handleClick}>
             0
           </td>
-          <td className="period">.</td>
+          <td className="period" onClick={handleClick}>
+            .
+          </td>
           <td className="equals" onClick={handleEqual}>
             =
           </td>
@@ -143,17 +168,3 @@ export default function Table() {
     </>
   );
 }
-
-//operations
-const addition = (firstNumber: number, secondNumber: number) =>
-  firstNumber + secondNumber;
-
-const subtract = (firstNumber: number, secondNumber: number) =>
-  firstNumber - secondNumber;
-
-const divide = (firstNumber: number, secondNumber: number) => {
-  return firstNumber / secondNumber;
-};
-const multiply = (firstNumber: number, secondNumber: number) => {
-  return firstNumber * secondNumber;
-};
