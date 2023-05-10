@@ -1,0 +1,26 @@
+button {
+    color: #fff;
+    border: none;
+    height: 50px;
+    width: 300px;
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 10px 20px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease-in-out;
+    background-color: transparent;
+
+  }
+button:hover {
+    background-color: #455e72;
+    cursor: pointer;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #0072c6;
+  }
+  
+

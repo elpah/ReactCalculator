@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "./table.css";
-import { addition, subtract, divide, multiply } from "./mathFuntions";
+import "../../src/style/table.css";
+import { addition, subtract, divide, multiply } from "../mathFuntions";
 
 export default function Table() {
   const [firstNumber, setFirstNumber] = useState<string>("");
