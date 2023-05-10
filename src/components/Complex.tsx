@@ -11,7 +11,11 @@ export default function Complex({ onSubmit, inputChange, value }: Props) {
   return (
     <>
       <form onSubmit={onSubmit}>
-        <textarea value={value} onChange={inputChange}></textarea>
+        <textarea
+          value={value}
+          onChange={inputChange}
+          placeholder="Enter one or more calculation(s) to perform"
+        ></textarea>
         <br />
         <button type="submit">Calculate</button>
       </form>
